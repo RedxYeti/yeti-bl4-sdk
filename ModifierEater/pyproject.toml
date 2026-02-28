@@ -1,0 +1,11 @@
+[project]
+name = "ModifierEater"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Pick your own enemy modifiers. Activate: Enemies will spawn with the modifier. Inactive: Enemies won't spawn with the modifier."
+
+[tool.sdkmod]
+name = "Modifier Eater"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
