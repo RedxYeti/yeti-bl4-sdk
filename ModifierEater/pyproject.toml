@@ -2,7 +2,7 @@
 name = "ModifierEater"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Pick your own enemy modifiers. Activate: Enemies will spawn with the modifier. Inactive: Enemies won't spawn with the modifier."
+description = "Pick your own enemy modifiers. Active: Enemies will spawn with the modifier. Inactive: Enemies won't spawn with the modifier."
 
 [tool.sdkmod]
 name = "Modifier Eater"
