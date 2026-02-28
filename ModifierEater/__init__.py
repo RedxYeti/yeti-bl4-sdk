@@ -83,12 +83,12 @@ oidImmovable = BoolOption(
     on_change=trait_changed,
 )
 
-oidLineDrive = BoolOption(
+oidIrritable = BoolOption(
     "Trait_Damage_ReturnProjectile",
     True,
     "Active",
     "Inactive",
-    display_name="Line Drive",
+    display_name="Irritable",
     on_change=trait_changed,
 )
 
@@ -317,7 +317,35 @@ oidOneCritWonder = BoolOption(
     on_change=trait_changed,
 )
 
+oidInvulnerableMeatHead = BoolOption(
+    "Trait_Meathead_Buff_Invulnerable",
+    True,
+    "Active",
+    "Inactive",
+    display_name="Invulnerable - Meat Heads",
+    on_change=trait_changed,
+)
+
+oidAMPd = BoolOption(
+    "Trait_Meathead_Buff_Enrage",
+    True,
+    "Active",
+    "Inactive",
+    display_name="AMP'd",
+    on_change=trait_changed,
+)
+
+oidDealWithIt = BoolOption(
+    "Trait_Special_Immune",
+    True,
+    "Active",
+    "Inactive",
+    display_name="Deal With It",
+    on_change=trait_changed,
+)
+
 oid_list = [
+    oidAMPd,
     oidArmored,
     oidArmsDealer,
     oidBougie,
@@ -326,6 +354,7 @@ oid_list = [
     oidChromatic,
     oidColdHearted,
     oidContagious,
+    oidDealWithIt,
     oidDeflector,
     oidElementalEater,
     oidExperienced,
@@ -334,9 +363,10 @@ oid_list = [
     oidImmovable,
     oidInvisible,
     oidInvulnerable,
+    oidInvulnerableMeatHead,
+    oidIrritable,
     oidLeaking,
     oidOneCritWonder,
-    #oidLineDrive,
     oidQuartermaster,
     oidQuickened,
     oidRegenerative,
