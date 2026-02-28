@@ -9,6 +9,14 @@ gameplay_statics = find_class("GameplayStatics").ClassDefaultObject
 def skip_dialog():
     for dialog in find_all("GbxDialogProvider"):
         if dialog.CurrentPerformance.DialogThreadID != 0:
+            if not dialog.bSpeakDirectlyToPlayer and oidAllowEnemyPlayer.value:
+                return
+            dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
+            break
+
+def manual_skip_dialog():
+    for dialog in find_all("GbxDialogProvider"):
+        if dialog.CurrentPerformance.DialogThreadID != 0:
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
             break
 
@@ -21,9 +29,10 @@ def dialogskip(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction)
             Timer(0.5,skip_dialog).start()
 
 
+
 @keybind("Skip Dialog Key")
 def skip_dialog_key():
-    skip_dialog()
+    manual_skip_dialog()
 
 
 @keybind("Increase Game Speed")
@@ -49,6 +58,13 @@ oidAutoSkip = BoolOption("Auto Skip Dialog",
                          False,
                          "On",
                          "Off",)
+
+oidAllowEnemyPlayer = BoolOption("Enemy/Player VO",
+                                False,
+                                "On",
+                                "Off",
+                                description="With this on, enemy taunts in combat and player vo will play while auto skip is on."
+                                )
 
 
 mod = build_mod()
