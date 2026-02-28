@@ -2,10 +2,10 @@
 name = "command_history"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Save your console history between game launches. History is saved in sdk_mods/settings/command_history."
+description = "Save your console history between game launches. History is saved in sdk_mods/settings/command_history. Only useful if you dont close the game normally, like alt-f4."
 
 [tool.sdkmod]
 name = "Command History"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = ""
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/command_history/command_history.sdkmod"
 version = "1"

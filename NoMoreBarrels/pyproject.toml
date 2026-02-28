@@ -2,10 +2,10 @@
 name = "NoMoreBarrels"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Removes barrels."
+description = "Removes barrels. Optionally grapple-able explosives."
 
 [tool.sdkmod]
 name = "No More Barrels"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = ""
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/NoMoreBarrels/NoMoreBarrels.sdkmod"
 version = "1"

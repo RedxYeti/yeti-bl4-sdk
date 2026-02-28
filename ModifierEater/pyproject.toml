@@ -7,5 +7,5 @@ description = "Pick your own enemy modifiers. Activate: Enemies will spawn with 
 [tool.sdkmod]
 name = "Modifier Eater"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = ""
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/ModifierEater/ModifierEater.sdkmod"
 version = "1"

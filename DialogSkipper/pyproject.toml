@@ -2,10 +2,10 @@
 name = "DialogSkipper"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Skip Dialog, Increase Game Speed."
+description = "Skip Dialog for free!"
 
 [tool.sdkmod]
 name = "Dialog Skipper"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = ""
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/DialogSkipper/DialogSkipper.sdkmod"
 version = "1"
