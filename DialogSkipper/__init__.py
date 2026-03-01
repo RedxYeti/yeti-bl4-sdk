@@ -1,32 +1,46 @@
 from typing import Any 
-from mods_base import hook, build_mod,BoolOption,keybind,ENGINE 
+from mods_base import hook, build_mod,BoolOption,keybind,ENGINE,get_pc
 from unrealsdk import find_class, find_all
 from unrealsdk.hooks import Type 
-from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct 
+from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct, UClass
 from threading import Timer
 gameplay_statics = find_class("GameplayStatics").ClassDefaultObject
+GbxTeamFunctionLibrary = find_class("GbxTeamFunctionLibrary").ClassDefaultObject
+GbxDialogProvider = find_class("GbxDialogProvider")
 
 def skip_dialog():
-    for dialog in find_all("GbxDialogProvider"):
-        if dialog.CurrentPerformance.DialogThreadID != 0:
-            if not dialog.bSpeakDirectlyToPlayer and oidAllowEnemyPlayer.value:
-                return
+    for host in find_all("LiveDialogSpeakerHost"):
+        for speaker in host.LiveSpeakers:
+            if speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID == 0:
+                continue
+
+            if oidAllowEnemyPlayer.value:
+                implementer = speaker.AttachedAudioImplementer
+
+                if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
+                    continue
+
+                if not implementer:
+                    continue
+                
+                if GbxTeamFunctionLibrary.GetAttitudeTowards(implementer, get_pc().Pawn) == 2:
+                    continue
+
+            dialog = speaker.GbxDialogProvider
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
-            break
+
 
 def manual_skip_dialog():
     for dialog in find_all("GbxDialogProvider"):
         if dialog.CurrentPerformance.DialogThreadID != 0:
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
-            break
+
 
 @hook("/Script/GbxGame.GbxDialogProvider:NetMulticast_StartDialog", Type.POST)
 def dialogskip(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction) ->  None:
     if oidAutoSkip.value:
-        #if str(obj.Outer.GetLevel().Name) == "World_P":
-        #    skip_dialog()
-        #else:
-            Timer(0.5,skip_dialog).start()
+        Timer(0.1,skip_dialog).start()
+
 
 
 
@@ -63,7 +77,7 @@ oidAllowEnemyPlayer = BoolOption("Enemy/Player VO",
                                 False,
                                 "On",
                                 "Off",
-                                description="With this on, enemy taunts in combat and player vo will play while auto skip is on."
+                                description="With this on, enemy taunts in combat and all player vo will play while auto skip is on. (Can still be skipped with the hotkey.)"
                                 )
 
 
