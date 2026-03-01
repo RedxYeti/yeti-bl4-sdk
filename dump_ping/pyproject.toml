@@ -5,7 +5,7 @@ authors = [{ name = "Yeti" }]
 description = "Dumps pinged actors to console. requires obj dump"
 
 [tool.sdkmod]
-name = "Dump Ping"
+name = "dump_ping"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
 download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/dump_ping/dump_ping.sdkmod"
 version = "1"
