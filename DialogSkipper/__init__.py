@@ -6,7 +6,6 @@ from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct, UClass
 from threading import Timer
 gameplay_statics = find_class("GameplayStatics").ClassDefaultObject
 GbxTeamFunctionLibrary = find_class("GbxTeamFunctionLibrary").ClassDefaultObject
-GbxDialogProvider = find_class("GbxDialogProvider")
 
 def skip_dialog():
     for host in find_all("LiveDialogSpeakerHost"):
@@ -17,12 +16,12 @@ def skip_dialog():
             if oidAllowEnemyPlayer.value:
                 implementer = speaker.AttachedAudioImplementer
 
+                if not implementer:
+                    continue
+
                 if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
                     continue
 
-                if not implementer:
-                    continue
-                
                 if GbxTeamFunctionLibrary.GetAttitudeTowards(implementer, get_pc().Pawn) == 2:
                     continue
 
