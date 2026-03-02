@@ -19,13 +19,13 @@ def check_skip_dialog():
                 return
             
             implementer = speaker.AttachedAudioImplementer
-            print(implementer)
+            #print(implementer)
             if not implementer:
                 continue
 
             if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
-                from obj_dump import dump_object
-                dump_object(speaker.GbxDialogProvider)
+                #from obj_dump import dump_object
+                #dump_object(speaker.GbxDialogProvider)
                 continue
         
             dialog = speaker.GbxDialogProvider
