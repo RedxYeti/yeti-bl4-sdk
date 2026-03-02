@@ -21,7 +21,7 @@ def SetEnemyLevels(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunct
     exp_level = obj.Outer.AICharacterState.ExperienceLevel
     if abs(exp_level - player_level) >= 5:
         obj.Outer.AICharacterState.ExperienceLevel = get_variance(player_level)
-        obj.Outer.AICharacterState._post_edit_change_property("ExperienceLevel")
+        obj.Outer._post_edit_change_property("AICharacterState")
 
 
 
