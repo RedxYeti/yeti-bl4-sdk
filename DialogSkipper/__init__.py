@@ -1,5 +1,5 @@
 from typing import Any 
-from mods_base import hook, build_mod,BoolOption,keybind,ENGINE,get_pc
+from mods_base import hook, build_mod,BoolOption,keybind,ENGINE,get_pc, SliderOption
 from unrealsdk import find_class, find_all
 from unrealsdk.hooks import Type 
 from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct, UClass
@@ -7,29 +7,33 @@ from threading import Timer
 gameplay_statics = find_class("GameplayStatics").ClassDefaultObject
 GbxTeamFunctionLibrary = find_class("GbxTeamFunctionLibrary").ClassDefaultObject
 
-def skip_dialog():
+def check_skip_dialog():
     for host in find_all("LiveDialogSpeakerHost"):
         for speaker in host.LiveSpeakers:
             if speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID == 0:
                 continue
 
-            if oidAllowEnemyPlayer.value:
-                implementer = speaker.AttachedAudioImplementer
+            
+            if not oidAllowEnemyPlayer.value:
+                skip_dialog()
+                return
+            
+            implementer = speaker.AttachedAudioImplementer
+            print(implementer)
+            if not implementer:
+                continue
 
-                if not implementer:
-                    continue
-
-                if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
-                    continue
-
-                if GbxTeamFunctionLibrary.GetAttitudeTowards(implementer, get_pc().Pawn) == 2:
-                    continue
-
+            if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
+                from obj_dump import dump_object
+                dump_object(speaker.GbxDialogProvider)
+                continue
+        
             dialog = speaker.GbxDialogProvider
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
 
 
-def manual_skip_dialog():
+
+def skip_dialog():
     for dialog in find_all("GbxDialogProvider"):
         if dialog.CurrentPerformance.DialogThreadID != 0:
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
@@ -38,14 +42,14 @@ def manual_skip_dialog():
 @hook("/Script/GbxGame.GbxDialogProvider:NetMulticast_StartDialog", Type.POST)
 def dialogskip(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction) ->  None:
     if oidAutoSkip.value:
-        Timer(0.1,skip_dialog).start()
+        Timer(oidDelay.value,check_skip_dialog).start()
 
 
 
 
 @keybind("Skip Dialog Key")
 def skip_dialog_key():
-    manual_skip_dialog()
+    skip_dialog()
 
 
 @keybind("Increase Game Speed")
@@ -78,6 +82,14 @@ oidAllowEnemyPlayer = BoolOption("Enemy/Player VO",
                                 "Off",
                                 description="With this on, enemy taunts in combat and all player vo will play while auto skip is on. (Can still be skipped with the hotkey.)"
                                 )
-
+oidDelay = SliderOption(
+    "Skip Delay",
+    0.2,
+    0.1,
+    5,
+    0.1,
+    False,
+    description="Time in seconds how long to wait for auto skip to attempt to skip dialog. Increase this if it's missing voice lines. Shouldn't need more than 1 second."
+)
 
 mod = build_mod()
