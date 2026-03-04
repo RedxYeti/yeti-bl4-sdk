@@ -7,5 +7,5 @@ description = "Teleport and delete* loot. Loot must be actively loaded to telepo
 [tool.sdkmod]
 name = "Ground Loot Helpers"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/dump_ping/dump_ping.sdkmod"
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/GroundLootHelpers/GroundLootHelpers.sdkmod"
 version = "1"
