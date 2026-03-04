@@ -101,34 +101,6 @@ def set_weather(region:str,new_layer:str):
 
 
 
-def set_time_option(option, new_value):
-    if option == oidForceTime:
-        _get_tod().bTimeOfDayPaused = new_value
-
-    elif option == oidCurrentTime:
-        if new_value == 1.01:
-            new_value =  uniform(0,1)
-        set_time(new_value)
-    
-
-oidForceTime = BoolOption(
-    "Force Time",
-    False,
-    "On",
-    "Off",
-    description="Force the weather to the current time in game, set Current Time first if you want to pause at a certain time.",
-    on_change=set_time_option
-)
-oidCurrentTime = SliderOption(
-    "Current Time",
-    0,
-    0,
-    1.01,
-    0.01,
-    False,
-    description="Time is set between 0-1. 0 is early morning. Set to 1.01 for random time.",
-    on_change=set_time_option
-)
 
 oidNewWeatherMinTime = SliderOption(
     "New Weather Minimum Time",
@@ -169,14 +141,10 @@ set_weather_command.add_argument("weather_type", help="Values accepted vary per 
 @command("pausetime")
 def pause_time(args: Namespace) -> None:
     _get_tod().bTimeOfDayPaused = True
-    oidForceTime.value = True
-    mod.save_settings()
 
 @command("unpausetime")
 def unpause_time(args: Namespace) -> None:
     _get_tod().bTimeOfDayPaused = False
-    oidForceTime.value = False
-    mod.save_settings()
 
 @command("setweatherhelp")
 def set_weather_help_command(args: Namespace) -> None:
@@ -210,8 +178,6 @@ def set_weather_help():
 
 
 mod_options = [
-    oidCurrentTime,
-    oidForceTime,
     oidNewWeatherMinTime,
     oidNewWeatherMaxTime,
 ]
