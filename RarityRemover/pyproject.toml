@@ -7,5 +7,5 @@ description = "Removes rarities at certain levels."
 [tool.sdkmod]
 name = "Rarity Remover"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/dump_ping/dump_ping.sdkmod"
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/RarityRemover/RarityRemover.sdkmod"
 version = "1"
