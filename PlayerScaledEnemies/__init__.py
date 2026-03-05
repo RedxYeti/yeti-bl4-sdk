@@ -7,7 +7,7 @@ from random import randint
 def get_variance(in_level:int) -> int:
     roll = randint(1, 100)
     if (roll < 20):
-        return in_level - randint(1,2)
+        return in_level - 1
     elif (roll < 40):
         return in_level + randint(1,2)
     else:
@@ -18,10 +18,15 @@ def get_variance(in_level:int) -> int:
 @hook("/Game/AI/_Shared/Character/Script_Enemy.Script_Enemy_C:OnBeginPlay", Type.POST)
 def SetEnemyLevels(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction):
     player_level = get_pc().PlayerState.ExperienceState[0].ExperienceLevel
-    exp_level = obj.Outer.AICharacterState.ExperienceLevel
+    current_enemy = obj.Outer
+    exp_level = current_enemy.AICharacterState.ExperienceLevel
     if abs(exp_level - player_level) >= 5:
-        obj.Outer.AICharacterState.ExperienceLevel = get_variance(player_level)
-        obj.Outer._post_edit_change_property("AICharacterState")
+        if "Boss" in str(current_enemy):
+            variance = randint(0,2)
+        else:
+            variance = get_variance(player_level)
+        current_enemy.AICharacterState.ExperienceLevel = variance
+        current_enemy._post_edit_change_property("AICharacterState")
 
 
 
