@@ -1,0 +1,11 @@
+[project]
+name = "CrystalsAreBad"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Makes crystal enemies crystals not spawn orbs when they break like the enemies in the Stone Demon DLC. Also has an option to just remove the crystals completely."
+
+[tool.sdkmod]
+name = "Crystals are Bad"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
