@@ -4,7 +4,7 @@ from unrealsdk import find_class, find_all
 from unrealsdk.hooks import Type 
 from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct, UClass
 from threading import Timer
-gameplay_statics = find_class("GameplayStatics").ClassDefaultObject
+GameplayStatics = find_class("GameplayStatics").ClassDefaultObject
 GbxTeamFunctionLibrary = find_class("GbxTeamFunctionLibrary").ClassDefaultObject
 
 def check_skip_dialog():
@@ -13,23 +13,24 @@ def check_skip_dialog():
             if speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID == 0:
                 continue
 
-            
-            if not oidAllowEnemyPlayer.value:
+            if not oidAllowPlayer.value and not oidAllowEnemy.value:
                 skip_dialog()
                 return
             
             implementer = speaker.AttachedAudioImplementer
-            #print(implementer)
             if not implementer:
-                continue
+                skip_dialog()
+                return
 
-            if "OakCharacter" in str(speaker.AttachedAudioImplementer.Name):
-                #from obj_dump import dump_object
-                #dump_object(speaker.GbxDialogProvider)
-                continue
-        
-            dialog = speaker.GbxDialogProvider
-            dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
+            if "OakCharacter" in str(speaker.AttachedAudioImplementer.Class.Name):
+                team_reaction = GbxTeamFunctionLibrary.GetAttitudeTowards(speaker.AttachedAudioImplementer, get_pc().Pawn)
+                if oidAllowPlayer.value:
+                    if speaker.AttachedAudioImplementer.Controller and team_reaction != 2 and speaker.AttachedAudioImplementer.Controller.Class.Name == "OakPlayerController":
+                        continue
+                elif oidAllowEnemy.value and team_reaction == 2:
+                    continue
+
+            skip_dialog()
 
 
 
@@ -44,9 +45,6 @@ def dialogskip(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction)
     if oidAutoSkip.value:
         Timer(oidDelay.value,check_skip_dialog).start()
 
-
-
-
 @keybind("Skip Dialog Key")
 def skip_dialog_key():
     skip_dialog()
@@ -55,13 +53,13 @@ def skip_dialog_key():
 @keybind("Increase Game Speed")
 def increase_game_speed():
     world = ENGINE.GameViewport.World
-    current_speed = gameplay_statics.GetGlobalTimeDilation(world)
+    current_speed = GameplayStatics.GetGlobalTimeDilation(world)
     if current_speed < 32:
-        gameplay_statics.SetGlobalTimeDilation(world, current_speed * 2)
+        GameplayStatics.SetGlobalTimeDilation(world, current_speed * 2)
 
 @keybind("Reset Game Speed")
 def reset_game_speed():
-    gameplay_statics.SetGlobalTimeDilation(ENGINE.GameViewport.World, 1)
+    GameplayStatics.SetGlobalTimeDilation(ENGINE.GameViewport.World, 1)
 
 
 @keybind("Toggle Auto Skip")
@@ -76,20 +74,27 @@ oidAutoSkip = BoolOption("Auto Skip Dialog",
                          "On",
                          "Off",)
 
-oidAllowEnemyPlayer = BoolOption("Enemy/Player VO",
+oidAllowEnemy = BoolOption("Enemy Taunts",
                                 False,
                                 "On",
                                 "Off",
-                                description="With this on, enemy taunts in combat and all player vo will play while auto skip is on. (Can still be skipped with the hotkey.)"
+                                description=("With this on, enemy taunts will play.")
                                 )
+
+oidAllowPlayer = BoolOption("Player Taunts",
+                            False,
+                            "On",
+                            "Off",
+                            description=("With this on, ALL player voice lines will play. Note: Random things use the player for dialog, so you'll have to skip those manually when needed.")
+                            )
 oidDelay = SliderOption(
     "Skip Delay",
-    0.2,
+    0.3,
     0.1,
     5,
     0.1,
     False,
-    description="Time in seconds how long to wait for auto skip to attempt to skip dialog. Increase this if it's missing voice lines. Shouldn't need more than 1 second."
+    description="Time in seconds how long to wait for auto skip to attempt to skip dialog. Increase this if it's missing voice lines. Shouldn't need more than 1 second. 0.3 usually only misses when you dont have control of your character."
 )
 
 mod = build_mod()

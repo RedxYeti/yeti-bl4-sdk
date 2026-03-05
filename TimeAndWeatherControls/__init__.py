@@ -25,7 +25,7 @@ def set_weather(region:str,new_layer:str):
     finalized_min = oidNewWeatherMinTime.value
     finalized_max = oidNewWeatherMaxTime.value
     match region.lower():
-        case "fatefields":
+        case "fadefields":
             match new_layer.lower():
                 case "default":
                     finalized_weather = "G_Clear"
@@ -135,7 +135,7 @@ def set_weather_command(args: Namespace) -> None:
     if not args.region or not args.weather_type:
         return
     set_weather(args.region, args.weather_type)
-set_weather_command.add_argument("region", help="Values accepted fatefields, carcadia or terminus")
+set_weather_command.add_argument("region", help="Values accepted fadefields, carcadia or terminus")
 set_weather_command.add_argument("weather_type", help="Values accepted vary per region, use command setweatherhelp")
 
 @command("pausetime")
@@ -154,12 +154,12 @@ def set_weather_help():
     print("==========All Weather Options==========")
     print("Usage: setweather region weathertype")
     print("")
-    print("fatefields clear")
-    print("fatefields foggy")
-    print("fatefields rainlight")
-    print("fatefields rainmedium")
-    print("fatefields rainheavy")
-    print("fatefields pollen")
+    print("fadefields clear")
+    print("fadefields foggy")
+    print("fadefields rainlight")
+    print("fadefields rainmedium")
+    print("fadefields rainheavy")
+    print("fadefields pollen")
     print("")
     print("carcadia clear")
     print("carcadia foggy")
