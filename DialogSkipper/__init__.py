@@ -28,9 +28,9 @@ def check_skip_dialog():
                 team_reaction = GbxTeamFunctionLibrary.GetAttitudeTowards(speaker.AttachedAudioImplementer, get_pc().Pawn)
                 if oidAllowPlayer.value:
                     if speaker.AttachedAudioImplementer.Controller and speaker.AttachedAudioImplementer.Controller.Class.Name == "OakPlayerController":
-                        return
+                        continue
                 if oidAllowEnemy.value and team_reaction == 2:
-                    return
+                    continue
 
             dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
 
