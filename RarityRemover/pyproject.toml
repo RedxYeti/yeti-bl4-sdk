@@ -2,7 +2,7 @@
 name = "RarityRemover"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Removes rarities at certain levels."
+description = "Removes rarities at certain levels. White items at 15, green items at 25, and reduced blue chance at 50."
 
 [tool.sdkmod]
 name = "Rarity Remover"
