@@ -13,24 +13,26 @@ def check_skip_dialog():
             if speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID == 0:
                 continue
 
+            dialog = speaker.GbxDialogProvider
+
             if not oidAllowPlayer.value and not oidAllowEnemy.value:
                 skip_dialog()
                 return
             
             implementer = speaker.AttachedAudioImplementer
             if not implementer:
-                skip_dialog()
-                return
-
-            if "OakCharacter" in str(speaker.AttachedAudioImplementer.Class.Name):
+                dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
+                continue
+            
+            if "OakCharacter" in str(speaker.AttachedAudioImplementer):
                 team_reaction = GbxTeamFunctionLibrary.GetAttitudeTowards(speaker.AttachedAudioImplementer, get_pc().Pawn)
                 if oidAllowPlayer.value:
-                    if speaker.AttachedAudioImplementer.Controller and team_reaction != 2 and speaker.AttachedAudioImplementer.Controller.Class.Name == "OakPlayerController":
-                        continue
-                elif oidAllowEnemy.value and team_reaction == 2:
-                    continue
+                    if speaker.AttachedAudioImplementer.Controller and speaker.AttachedAudioImplementer.Controller.Class.Name == "OakPlayerController":
+                        return
+                if oidAllowEnemy.value and team_reaction == 2:
+                    return
 
-            skip_dialog()
+            dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
 
 
 
