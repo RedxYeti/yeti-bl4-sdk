@@ -72,7 +72,7 @@ def get_sorted_ground_loot() -> dict:
     return current_ground_loot
 
 
-delete_loot_location = make_struct("Vector", X=100000,Y=100000,Z=-1000000)
+delete_loot_location = make_struct("Vector", X=100000,Y=100000,Z=-1000000000)
 @keybind("Delete Loot")
 def delete_loot():
     pickups = get_sorted_ground_loot()
