@@ -2,7 +2,7 @@
 name = "FallingMenus"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Open your status menu while falling/gliding."
+description = "Open your status menu while falling/gliding. You must set up the hotkey, I'd suggest your normal status menu key."
 
 [tool.sdkmod]
 name = "Falling Menus"
