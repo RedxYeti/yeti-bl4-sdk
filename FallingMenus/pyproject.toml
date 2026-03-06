@@ -1,0 +1,12 @@
+[project]
+name = "FallingMenus"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Open your status menu while falling/gliding."
+
+[tool.sdkmod]
+name = "Falling Menus"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
+coop_support = "ClientSide"
