@@ -2,7 +2,7 @@
 name = "PlayerScaledEnemies"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Rescales Enemies to the players level."
+description = "Rescales Enemies to the players level. Also includes an option for OP Levels. Recommended using Always Show Enemy Levels on nexus. https://www.nexusmods.com/borderlands4/mods/228"
 
 [tool.sdkmod]
 name = "Player Scaled Enemies"
