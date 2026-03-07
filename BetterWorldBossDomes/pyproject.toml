@@ -2,7 +2,7 @@
 name = "BetterWorldBossDomes"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Rescales Enemies to the players level."
+description = "Doubles the size of world boss domes. Also stops the boss from despawning if you leave on accident."
 
 [tool.sdkmod]
 name = "Better World Boss Domes"
