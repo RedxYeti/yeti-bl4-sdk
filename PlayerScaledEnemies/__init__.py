@@ -1,5 +1,5 @@
 from typing import Any 
-from mods_base import hook, build_mod,get_pc
+from mods_base import hook, build_mod,get_pc,SliderOption
 from unrealsdk.hooks import Type 
 from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct 
 from random import randint
@@ -14,11 +14,15 @@ def get_variance(in_level:int) -> int:
         return in_level
 
 
-
 @hook("/Game/AI/_Shared/Character/Script_Enemy.Script_Enemy_C:OnBeginPlay", Type.POST)
 def SetEnemyLevels(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction):
-    player_level = get_pc().PlayerState.ExperienceState[0].ExperienceLevel
     current_enemy = obj.Outer
+    player_level = get_pc().PlayerState.ExperienceState[0].ExperienceLevel
+
+    if oidOPlevel.value > 0:
+        current_enemy.AICharacterState.ExperienceLevel = player_level + oidOPlevel.value + randint(-1,2)
+        return
+    
     exp_level = current_enemy.AICharacterState.ExperienceLevel
     if abs(exp_level - player_level) >= 5:
         if "Boss" in str(current_enemy):
@@ -27,6 +31,15 @@ def SetEnemyLevels(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunct
             variance = get_variance(player_level)
         current_enemy.AICharacterState.ExperienceLevel = variance
         current_enemy._post_edit_change_property("AICharacterState")
+
+
+oidOPlevel = SliderOption(
+    "OP Level",
+    0,
+    0,
+    50,
+    description="When this option is higher than 0, all enemies will spawn at your level plus this value with variance."
+)
 
 
 

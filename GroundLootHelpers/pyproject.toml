@@ -2,7 +2,7 @@
 name = "GroundLootHelpers"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Teleport and delete* loot. Loot must be actively loaded to teleport or delete and it's draw distance isnt great. *Deleting loot just teleports it into the void which may result in phantom legendaries on your radar."
+description = "Teleport and delete* loot. Loot must be actively loaded to teleport or delete and it's draw distance isnt great. Works coop, everyone teleports their own loot. *Deleting loot just teleports it into the void which may result in phantom legendaries on your radar."
 
 [tool.sdkmod]
 name = "Ground Loot Helpers"
