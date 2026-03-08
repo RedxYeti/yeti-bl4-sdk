@@ -75,6 +75,13 @@ def set_weather(region:str,new_layer:str):
                     finalized_weather = "M_Snow_Medium"
                 case "snowheavy":
                     finalized_weather = "M_Snow_Heavy"
+        case "event":
+            match new_layer.lower():
+                case "snow":
+                    finalized_weather = "Global_Snow"
+                case "bloodrain":
+                    finalized_weather = "Global_BLOODRAIN"
+
 
     #['Prison_Intro', 'Grasslands_Start', 'Grasslands_Default_Cycle', 'Mountains_Default_Cycle', 'Mountains_Fortress_Default_Cycle', 'Shattered_Lands_Default_Cycle', 'Return_From_Elpis', 'Shattered_Lands_Crater_Default_Cycle']
 
@@ -172,6 +179,9 @@ def set_weather_help():
     print("terminus snowlight")
     print("terminus snowmedium")
     print("terminus snowheavy")
+    print("")
+    print("event snow")
+    print("event bloodrain")
     print("")
     print("use any region and 'default' to reset weather")
     print("=======================================")
