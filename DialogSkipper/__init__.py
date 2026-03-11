@@ -7,33 +7,34 @@ from threading import Timer
 GameplayStatics = find_class("GameplayStatics").ClassDefaultObject
 GbxTeamFunctionLibrary = find_class("GbxTeamFunctionLibrary").ClassDefaultObject
 
-def check_skip_dialog():
+def check_skip_dialog(thread_id:int):
     for host in find_all("LiveDialogSpeakerHost"):
         for speaker in host.LiveSpeakers:
-            if speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID == 0:
+            current_id = speaker.GbxDialogProvider.CurrentPerformance.DialogThreadID
+            if current_id == 0 or current_id != thread_id:
                 continue
 
             dialog = speaker.GbxDialogProvider
 
             if not oidAllowPlayer.value and not oidAllowEnemy.value:
-                skip_dialog()
+                dialog.NetMulticast_StopDialog(current_id, 0.1)
                 return
             
             implementer = speaker.AttachedAudioImplementer
             if not implementer:
-                dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
-                continue
+                dialog.NetMulticast_StopDialog(current_id, 0.1)
+                return
             
             if "OakCharacter" in str(speaker.AttachedAudioImplementer):
                 team_reaction = GbxTeamFunctionLibrary.GetAttitudeTowards(speaker.AttachedAudioImplementer, get_pc().Pawn)
                 if oidAllowPlayer.value:
                     if speaker.AttachedAudioImplementer.Controller and speaker.AttachedAudioImplementer.Controller.Class.Name == "OakPlayerController":
-                        continue
+                        return
                 if oidAllowEnemy.value and team_reaction == 2:
-                    continue
+                    return
 
-            dialog.NetMulticast_StopDialog(dialog.CurrentPerformance.DialogThreadID, 0.1)
-
+            dialog.NetMulticast_StopDialog(current_id, 0.1)
+    return
 
 
 def skip_dialog():
@@ -44,8 +45,9 @@ def skip_dialog():
 
 @hook("/Script/GbxGame.GbxDialogProvider:NetMulticast_StartDialog", Type.POST)
 def dialogskip(obj: UObject, args: WrappedStruct, ret: Any, func: BoundFunction) ->  None:
-    if oidAutoSkip.value:
-        Timer(oidDelay.value,check_skip_dialog).start()
+    if args.params.DialogThreadID > 0 and oidAutoSkip.value:
+        Timer(oidDelay.value,check_skip_dialog,args=[args.params.DialogThreadID]).start()
+
 
 @keybind("Skip Dialog Key")
 def skip_dialog_key():
