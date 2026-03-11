@@ -7,6 +7,6 @@ description = "Removes the very long animations of the ground slam. Recommended 
 [tool.sdkmod]
 name = "TPS Style Slams"
 license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
-download = ""
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/TPSStyleSlams/TPSStyleSlams.sdkmod"
 version = "1"
 coop_support = "ClientSide"
