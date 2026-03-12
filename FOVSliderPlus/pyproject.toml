@@ -1,0 +1,12 @@
+[project]
+name = "FOVSliderPlus"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Back to 120. Can use slider or command fovp"
+
+[tool.sdkmod]
+name = "FOV Slider Plus"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
+coop_support = "ClientSide"
