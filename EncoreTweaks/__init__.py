@@ -28,7 +28,7 @@ def Script_BossReplay_C_OnUsed_EncoreTweaks(obj: UObject, args: WrappedStruct, r
         healthtypes = pawn.HealthState.HealthTypeStates
         for index, state in enumerate(pawn.HealthState.HealthTypeStates):
             if state.HealthType.DisplayColor < 3:
-                DamageStatics.RefillHealthPercent(get_pc().Pawn, healthtypes[index].HealthType, 100, 100)
+                DamageStatics.RefillHealthPercent(pawn, healthtypes[index].HealthType, 100, 100)
 
         GbxSkillComponentFunctions_ActionSkill.RefillCooldown(pawn, 1.0, 0)
 
