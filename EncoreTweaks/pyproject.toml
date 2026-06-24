@@ -1,0 +1,12 @@
+[project]
+name = "EncoreTweaks"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Fills your health/shield/ammo/actionskill when using the big Encore. Options include killing all enemies in the area."
+
+[tool.sdkmod]
+name = "Encore Tweaks"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
+coop_support = "HostOnly"
