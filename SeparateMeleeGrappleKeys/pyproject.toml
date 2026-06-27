@@ -2,7 +2,7 @@
 name = "SeparateMeleeGrappleKeys"
 version = "1"
 authors = [{ name = "Yeti" }]
-description = "Adds separate keybind options for melee and grapple. Optionally removing the lock on."
+description = "Adds separate keybind options for melee and grapple. Optionally removing the lock on. Currently doesn't support amon's axes/swords."
 
 [tool.sdkmod]
 name = "Separate Melee/Grapple Keys"
