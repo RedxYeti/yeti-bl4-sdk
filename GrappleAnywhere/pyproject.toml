@@ -1,0 +1,12 @@
+[project]
+name = "GrappleAnywhere"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Lets you grapple anywhere, comes with 2 types of grapple and an option to disable vanilla grapple points."
+
+[tool.sdkmod]
+name = "Grapple Anywhere"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = ""
+version = "1"
+coop_support = "ClientSide"
