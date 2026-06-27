@@ -5,38 +5,13 @@ from unrealsdk.hooks import Type
 from unrealsdk.unreal import BoundFunction, UObject, WrappedStruct 
 
 
-def set_slam_data():
-    if not get_pc().Pawn or get_pc().Pawn.Class.Name == "OakVehicle":
-        return
+def set_move_slam_data(slam:UObject) -> None:
+    slam.GravityModifier.constant = 40
+    slam.bApplyLaunchVelocityOnStart = False
+    slam.LaunchDirection.RelativeDirection = 0
 
-    Trick_Looping_GroundSlam = find_object('GbxTrick_Loop','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_Looping_GroundSlam.Trick_Looping_GroundSlam')
-    Trick_GroundSlamExit = find_object('GbxTrick_Anim','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit.Trick_GroundSlamExit')
-
-    Trick_Looping_GroundSlam.Start.Meshes[1].Anim.Asset = None
-    Trick_Looping_GroundSlam.Loops[0].Anim.Meshes[1].Anim.Asset = None
-    if not oidSlamEffect.value:
-        Trick_GroundSlamExit.AnimData.Meshes[0].Anim.Asset = None
-
-    Move_GroundSlam = find_object('OakControlledMove','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Move_GroundSlam.Move_GroundSlam')
-    Move_GroundSlam.GravityModifier.constant = 40
-    Move_GroundSlam.bApplyLaunchVelocityOnStart = False
-    Move_GroundSlam.LaunchDirection.RelativeDirection = 0
-
-    Default__OakControlledMove_GroundSlam_options = find_object('OakTrickOptions','/Script/OakGame.Default__OakControlledMove_GroundSlam:options')
-    Move_GroundSlam_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Move_GroundSlam.Move_GroundSlam:options')
-    Trick_Looping_GroundSlam_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_Looping_GroundSlam.Trick_Looping_GroundSlam:options')
-    Trick_GroundSlamExit_Water_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit_Water.Trick_GroundSlamExit_Water:options')
-    Trick_GroundSlamExit_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit.Trick_GroundSlamExit:options')
-
-    trick_options = [
-        Default__OakControlledMove_GroundSlam_options,
-        Move_GroundSlam_options,
-        Trick_Looping_GroundSlam_options,
-        Trick_GroundSlamExit_Water_options,
-        Trick_GroundSlamExit_options,
-    ]
-
-    for option in trick_options:
+def set_trick_options_data(options:list[UObject]) -> None:
+    for option in options:
         option.bBlockWeaponActions = False
         option.bLockActionSkills = False
         option.bHideWeapons = False
@@ -44,8 +19,63 @@ def set_slam_data():
         option.bLockActionSkills = False
         option.bHideFirstPersonLegs = True
 
-    Trick_GroundSlamExit_options.bBlockJumping = False
-    Trick_GroundSlamExit_options.MovementModesToBlock = 0
+    options[-1].bBlockJumping = False
+    options[-1].MovementModesToBlock = 0
+
+
+def set_slam_data():
+    if not get_pc().Pawn or get_pc().Pawn.Class.Name == "OakVehicle":
+        return
+
+    Default__OakControlledMove_GroundSlam_options = find_object('OakTrickOptions','/Script/OakGame.Default__OakControlledMove_GroundSlam:options')
+    Move_GroundSlam_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Move_GroundSlam.Move_GroundSlam:options')
+    
+    try:
+        Trick_Looping_GroundSlam = find_object('GbxTrick_Loop','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_Looping_GroundSlam.Trick_Looping_GroundSlam')
+        Trick_GroundSlamExit = find_object('GbxTrick_Anim','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit.Trick_GroundSlamExit')
+        Trick_Looping_GroundSlam.Start.Meshes[1].Anim.Asset = None
+        Trick_Looping_GroundSlam.Loops[0].Anim.Meshes[1].Anim.Asset = None
+        if not oidSlamEffect.value:
+            Trick_GroundSlamExit.AnimData.Meshes[0].Anim.Asset = None
+        Move_GroundSlam = find_object('OakControlledMove','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Move_GroundSlam.Move_GroundSlam')
+        set_move_slam_data(Move_GroundSlam)
+        Trick_Looping_GroundSlam_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_Looping_GroundSlam.Trick_Looping_GroundSlam:options')
+        Trick_GroundSlamExit_Water_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit_Water.Trick_GroundSlamExit_Water:options')
+        Trick_GroundSlamExit_options = find_object('OakTrickOptions','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Trick_GroundSlamExit.Trick_GroundSlamExit:options')
+        trick_options = [
+            Default__OakControlledMove_GroundSlam_options,
+            Move_GroundSlam_options,
+            Trick_Looping_GroundSlam_options,
+            Trick_GroundSlamExit_Water_options,
+            Trick_GroundSlamExit_options,
+        ]
+        set_trick_options_data(trick_options)
+    except:
+        pass
+
+    try:
+        Trick_Looping_GroundSlam = find_object('GbxTrick_Loop','/Game/DLC/Cowbell/PlayerCharacters/_Shared/Tricks/TrickLoop_GroundSlam_Robodealer.TrickLoop_GroundSlam_Robodealer')
+        Trick_GroundSlamExit = find_object('GbxTrick_Anim','/Game/DLC/Cowbell/PlayerCharacters/_Shared/Tricks/Trick_GroundSlamExit_Robodealer.Trick_GroundSlamExit_Robodealer')
+        Trick_Looping_GroundSlam.Start.Meshes[1].Anim.Asset = None
+        Trick_Looping_GroundSlam.Loops[0].Anim.Meshes[1].Anim.Asset = None
+        if not oidSlamEffect.value:
+            Trick_GroundSlamExit.AnimData.Meshes[0].Anim.Asset = None
+        Move_GroundSlam = find_object('OakControlledMove','/Game/PlayerCharacters/_Shared/Tricks/ControlledMoves/Move_GroundSlam.Move_GroundSlam')
+        set_move_slam_data(Move_GroundSlam)
+        Trick_Looping_GroundSlam_options = find_object('OakTrickOptions','/Game/DLC/Cowbell/PlayerCharacters/_Shared/Tricks/TrickLoop_GroundSlam_Robodealer.TrickLoop_GroundSlam_Robodealer:options')
+        Trick_GroundSlamExit_Water_options = find_object('OakTrickOptions','/Game/DLC/Cowbell/PlayerCharacters/_Shared/Tricks/Trick_GroundSlamExit_Water_Robodealer.Trick_GroundSlamExit_Water_Robodealer:options')
+        Trick_GroundSlamExit_options = find_object('OakTrickOptions','/Game/DLC/Cowbell/PlayerCharacters/_Shared/Tricks/Trick_GroundSlamExit_Robodealer.Trick_GroundSlamExit_Robodealer:options')
+        trick_options = [
+            Default__OakControlledMove_GroundSlam_options,
+            Move_GroundSlam_options,
+            Trick_Looping_GroundSlam_options,
+            Trick_GroundSlamExit_Water_options,
+            Trick_GroundSlamExit_options,
+        ]
+        set_trick_options_data(trick_options)
+    except:
+        pass
+
     return
 
 

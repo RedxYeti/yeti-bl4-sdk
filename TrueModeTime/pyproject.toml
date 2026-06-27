@@ -1,0 +1,12 @@
+[project]
+name = "TrueModeTime"
+version = "1"
+authors = [{ name = "Yeti" }]
+description = "Turn on/off True Mode whenever you want. (Doesn't change the menu UI True Mode.)"
+
+[tool.sdkmod]
+name = "True Mode Time"
+license = {name = "GPL3", url = "https://choosealicense.com/licenses/gpl-3.0/" }
+download = "https://github.com/RedxYeti/yeti-bl4-sdk/raw/refs/heads/main/RarityRemover/RarityRemover.sdkmod"
+version = "1"
+coop_support = "HostOnly"
